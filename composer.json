@@ -24,7 +24,7 @@
   "minimum-stability": "dev",
   "name" : "jalismrs/symfony-command.bundle",
   "require-dev" : {
-    "composer/package-versions-deprecated" : "*",
+    "composer/package-versions-deprecated" : "dev-master",
     "phpunit/phpunit" : "9.4.2",
     "roave/security-advisories" : "dev-master"
   },
