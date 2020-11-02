@@ -1,14 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-namespace Jalismrs\CommandBundle;
+namespace Jalismrs\Symfony\Common;
 
 use Exception;
-use Jalismrs\ErrorBundle\AssertionError;
-use Jalismrs\ExceptionBundle\ExceptionInterface;
+use Jalismrs\Common\Exception\AppException;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use UnexpectedValueException;
 use function array_combine;
 use function array_map;
 use function array_merge;
@@ -16,7 +17,7 @@ use function array_merge;
 /**
  * Class MetaCommandAbstract
  *
- * @package Jalismrs\CommandBundle
+ * @package Jalismrs\Symfony\Common
  *
  * @codeCoverageIgnore
  */
@@ -43,8 +44,8 @@ abstract class MetaCommandAbstract extends
         OutputInterface $output
     ) : int {
         $application = $this->getApplication();
-        if ($application === null) {
-            throw new AssertionError(
+        if (!$application instanceof Application) {
+            throw new UnexpectedValueException(
                 'Application instance is null [should never happen]'
             );
         }
@@ -61,11 +62,11 @@ abstract class MetaCommandAbstract extends
                 $arrayInput,
                 $output
             );
-        } catch (ExceptionInterface $exception) {
-            $this->logger->error($exception);
+        } catch (AppException $appException) {
+            $this->logger->error($appException);
             $this->style
                 ->getErrorStyle()
-                ->error($exception);
+                ->error($appException);
             
             $code = 2;
         } catch (Exception $exception) {
