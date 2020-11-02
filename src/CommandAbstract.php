@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Jalismrs\CommandBundle;
+namespace Jalismrs\Symfony\Common;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 /**
  * Class CommandAbstract
  *
- * @package Jalismrs\CommandBundle
+ * @package Jalismrs\Symfony\Common
  *
  * @codeCoverageIgnore
  */
@@ -100,7 +100,7 @@ abstract class CommandAbstract extends
                     'arguments' => $input->getArguments(),
                     'options'   => $input->getOptions(),
                 ],
-            ]
+            ],
         );
     }
 }

@@ -8,21 +8,20 @@
   ],
   "autoload" : {
     "psr-4" : {
-      "Jalismrs\\CommandBundle\\" : "src"
+      "Jalismrs\\Symfony\\Common\\" : "src/"
     }
   },
   "autoload-dev" : {
     "psr-4" : {
-      "Tests\\" : "tests"
+      "Tests\\" : "tests/"
     }
   },
   "config" : {
     "sort-packages" : true
   },
-  "description" : "API Throttler Symfony bundle helps you throttle API calls using a persistent token bucket algorithm",
+  "description" : "Adds Symfony command abstract classes",
   "license": "MIT",
-  "minimum-stability": "dev",
-  "name" : "jalismrs/symfony-command.bundle",
+  "name" : "jalismrs/symfony.common.command",
   "require-dev" : {
     "composer/package-versions-deprecated" : "dev-master",
     "phpunit/phpunit" : "9.4.2",
@@ -30,18 +29,15 @@
   },
   "require" : {
     "php" : "^7.4",
-    "jalismrs/symfony-error.bundle" : "^1.0.0",
-    "jalismrs/symfony-exception.bundle" : "^1.0.0",
-    "symfony/console" : "^5.0",
-    "symfony/http-kernel" : "^5.0",
-    "symfony/dependency-injection": "^5.0"
+    "jalismrs/common.exception" : "^1.0.0",
+    "jalismrs/symfony.common.event-subscriber" : "^1.0.0",
+    "symfony/console" : "^5.0"
   },
   "support" : {
     "email" : "dev@jalis.fr",
-    "issues" : "https://github.com/jalismrs/symfony-command.bundle/issues",
-    "wiki" : "https://github.com/jalismrs/symfony-command.bundle/wiki",
-    "source" : "https://github.com/jalismrs/symfony-command.bundle",
-    "docs" : "https://github.com/jalismrs/symfony-command.bundle"
-  },
-  "type" : "symfony-bundle"
+    "issues" : "https://github.com/jalismrs/symfony.common.command/issues",
+    "wiki" : "https://github.com/jalismrs/symfony.common.command/wiki",
+    "source" : "https://github.com/jalismrs/symfony.common.command",
+    "docs" : "https://github.com/jalismrs/symfony.common.command"
+  }
 }
