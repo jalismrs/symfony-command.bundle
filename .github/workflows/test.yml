@@ -64,3 +64,12 @@ jobs:
             # Tests ------------------------------------------------------------
             - name: 'Run tests'
               run: vendor/bin/phpunit -vvv
+
+            - name: 'Upload coverage report'
+              uses: 'codecov/codecov-action@v1'
+              with:
+                  file: 'var/coverage/clover.xml'
+                  flags: 'php,unit'
+                  name: 'symfony.common.command'
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  verbose: true

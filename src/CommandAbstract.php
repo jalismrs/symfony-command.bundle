@@ -42,18 +42,18 @@ abstract class CommandAbstract extends
     /**
      * CommandAbstract constructor.
      *
-     * @param \Psr\Log\LoggerInterface                                                  $commandLogger
+     * @param \Psr\Log\LoggerInterface                                                  $logger
      * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag
      * @param string|null                                                               $name
      *
      * @throws \Symfony\Component\Console\Exception\LogicException
      */
     public function __construct(
-        LoggerInterface $commandLogger,
+        LoggerInterface $logger,
         ParameterBagInterface $parameterBag,
         string $name = null
     ) {
-        $this->logger       = $commandLogger;
+        $this->logger       = $logger;
         $this->parameterBag = $parameterBag;
         
         parent::__construct(
@@ -68,8 +68,6 @@ abstract class CommandAbstract extends
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
      * @return void
-     *
-     * @throws \Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException
      */
     protected function initialize(
         InputInterface $input,
@@ -84,17 +82,30 @@ abstract class CommandAbstract extends
             $input,
             $output
         );
-        
+    }
+    
+    /**
+     * execute
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ) : int {
         $appName    = $this->parameterBag->get('app.name');
         $appVersion = $this->parameterBag->get('app.version');
-        $command    = $this->getName();
+        $name       = $this->getName();
         
-        $this->style->title("{$appName} v{$appVersion} - {$command}");
+        $this->style->title("{$appName} v{$appVersion} - {$name}");
         $this->style->text($this->getDescription());
         $this->style->newLine();
         
         $this->logger->info(
-            $command,
+            $name,
             [
                 'input' => [
                     'arguments' => $input->getArguments(),
@@ -102,5 +113,7 @@ abstract class CommandAbstract extends
                 ],
             ],
         );
+        
+        return Command::SUCCESS;
     }
 }

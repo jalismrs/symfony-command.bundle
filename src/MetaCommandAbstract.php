@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Jalismrs\Symfony\Common;
 
-use Exception;
 use Jalismrs\Common\Exception\AppException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 use UnexpectedValueException;
 use function array_combine;
 use function array_map;
@@ -46,7 +46,7 @@ abstract class MetaCommandAbstract extends
         $application = $this->getApplication();
         if (!$application instanceof Application) {
             throw new UnexpectedValueException(
-                'Application instance is null [should never happen]'
+                'should be Application'
             );
         }
         
@@ -57,6 +57,7 @@ abstract class MetaCommandAbstract extends
             $input
         );
         
+        $error = null;
         try {
             $code = $command->run(
                 $arrayInput,
@@ -64,18 +65,20 @@ abstract class MetaCommandAbstract extends
             );
         } catch (AppException $appException) {
             $this->logger->error($appException);
+            
+            $error = $appException;
+            $code  = 2;
+        } catch (Throwable $throwable) {
+            $this->logger->critical($throwable);
+            
+            $error = $throwable;
+            $code  = 1;
+        }
+        
+        if ($error !== null) {
             $this->style
                 ->getErrorStyle()
-                ->error($appException);
-            
-            $code = 2;
-        } catch (Exception $exception) {
-            $this->logger->critical($exception);
-            $this->style
-                ->getErrorStyle()
-                ->error($exception);
-            
-            $code = 1;
+                ->error($error);
         }
         
         return $code;

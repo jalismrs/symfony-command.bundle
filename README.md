@@ -1,4 +1,4 @@
-# Symfony Bundle Command
+# symfony.common.command
 
 Adds Symfony command abstract classes
 
@@ -16,25 +16,6 @@ use Jalismrs\Symfony\Common\CommandAbstract;
 
 class SomeCommand extends CommandAbstract {
 
-}
-```
-
-### EventCommandAbstract
-```php
-use Jalismrs\Symfony\Common\EventCommandAbstract;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Jalismrs\Symfony\Common\ConsoleEventSubscriberAbstract;
-
-class SomeCommand extends EventCommandAbstract {
-    private ConsoleEventSubscriberAbstract $consoleEventSubscriber;
-
-    protected function initialize(
-        InputInterface $input,
-        OutputInterface $output
-    ): void {
-        $this->initConsoleEventSubscriber($this->consoleEventSubscriber);
-    }
 }
 ```
 
