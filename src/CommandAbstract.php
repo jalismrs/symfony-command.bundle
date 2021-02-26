@@ -34,7 +34,7 @@ abstract class CommandAbstract extends
      *
      * @var \Symfony\Component\Console\Style\SymfonyStyle|null
      */
-    private ?SymfonyStyle $style;
+    private ?SymfonyStyle $style = null;
     /**
      * parameterBag
      *
