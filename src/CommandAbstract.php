@@ -20,6 +20,9 @@ use function vsprintf;
 abstract class CommandAbstract extends
     Command
 {
+    public const DESCRIPTION = 'DESCRIPTION';
+    public const HELP        = 'DESCRIPTION';
+    
     /**
      * logger
      *
@@ -62,6 +65,55 @@ abstract class CommandAbstract extends
     }
     
     /**
+     * configure
+     *
+     * @return void
+     */
+    protected function configure() : void
+    {
+        parent::configure();
+        
+        $this
+            ->setDescription(static::DESCRIPTION)
+            ->setHelp(static::HELP);
+    }
+    
+    /**
+     * execute
+     *
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ) : int {
+        $appName    = $this->parameterBag->get('app.name');
+        $appVersion = $this->parameterBag->get('app.version');
+        $name       = $this->getName();
+        
+        $style = $this->getStyle();
+        
+        $style->title("{$appName} v{$appVersion} - {$name}");
+        $style->text($this->getDescription());
+        $style->newLine();
+        
+        $this->logger->info(
+            $name,
+            [
+                'input' => [
+                    'arguments' => $input->getArguments(),
+                    'options'   => $input->getOptions(),
+                ],
+            ],
+        );
+        
+        return Command::SUCCESS;
+    }
+    
+    /**
      * getStyle
      *
      * @return \Symfony\Component\Console\Style\SymfonyStyle
@@ -96,41 +148,6 @@ abstract class CommandAbstract extends
         SymfonyStyle $style
     ) : void {
         $this->style = $style;
-    }
-    
-    /**
-     * execute
-     *
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output
-    ) : int {
-        $appName    = $this->parameterBag->get('app.name');
-        $appVersion = $this->parameterBag->get('app.version');
-        $name       = $this->getName();
-        
-        $style = $this->getStyle();
-    
-        $style->title("{$appName} v{$appVersion} - {$name}");
-        $style->text($this->getDescription());
-        $style->newLine();
-        
-        $this->logger->info(
-            $name,
-            [
-                'input' => [
-                    'arguments' => $input->getArguments(),
-                    'options'   => $input->getOptions(),
-                ],
-            ],
-        );
-        
-        return Command::SUCCESS;
     }
     
     /**
