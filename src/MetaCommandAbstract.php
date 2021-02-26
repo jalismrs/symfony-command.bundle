@@ -18,8 +18,6 @@ use function array_merge;
  * Class MetaCommandAbstract
  *
  * @package Jalismrs\Symfony\Common
- *
- * @codeCoverageIgnore
  */
 abstract class MetaCommandAbstract extends
     CommandAbstract
@@ -76,7 +74,8 @@ abstract class MetaCommandAbstract extends
         }
         
         if ($error !== null) {
-            $this->style
+            $this
+                ->getStyle()
                 ->getErrorStyle()
                 ->error($error);
         }
@@ -134,8 +133,6 @@ abstract class MetaCommandAbstract extends
             $options
         );
         
-        return new ArrayInput(
-            $parametersWithOptions
-        );
+        return new ArrayInput($parametersWithOptions);
     }
 }
