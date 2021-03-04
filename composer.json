@@ -28,7 +28,7 @@
     "roave/security-advisories" : "dev-master"
   },
   "require" : {
-    "php" : "^7.4",
+    "php" : "^7.4 || ^8.0",
     "jalismrs/common.exception" : "^1.0.0",
     "psr/log" : "^1.1.3",
     "symfony/console" : "^5.0",
